@@ -1,13 +1,17 @@
 <template>
-  <baidu-map class="bm-view" ak="QHfyH958vAdIKPMlfY2RlfgaSBdgRWmc" center="北京" />
+  <div class="el-container">
+    <!--{{this.$route.params}}-->
+    <baidu-map></baidu-map>
+    <!--<router-view></router-view>-->
+  </div>
+
 </template>
 
 <script>
-// https://dafrok.github.io/vue-baidu-map/#/zh/start/usage
-import BaiduMap from 'vue-baidu-map/components/map/Map'
+import BaiduMap from './BaiduMap'
 export default {
-  components: {
-    BaiduMap
+  components:{
+     BaiduMap
   },
   data() {
     return { msg: '右边内容区' }
@@ -16,8 +20,7 @@ export default {
 </script>
 
 <style>
-.bm-view {
-    width: 100% !important;
-    height: 800px;
-  }
+.el-container{
+  height: 900px !important;
+}
 </style>
