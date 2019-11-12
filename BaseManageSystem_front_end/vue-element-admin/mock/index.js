@@ -13,7 +13,7 @@ const mocks = [
   ...role,
   ...article,
   ...search,
-  ...kpi
+  ...kpi,
   ...search,
   ...coordinate
 ]
