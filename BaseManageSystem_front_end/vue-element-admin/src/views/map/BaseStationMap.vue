@@ -1,5 +1,5 @@
 <template>
-  <el-container direction="vertical">
+  <el-container direction="vertical" >
     <!--<layout-header></layout-header>-->
     <el-container>
       <left-search-input />
@@ -28,8 +28,5 @@ export default {
 </script>
 
 <style>
-  .bm-view {
-    width: 100%;
-    height: 800px;
-  }
+
 </style>

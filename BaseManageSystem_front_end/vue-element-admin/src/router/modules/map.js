@@ -14,13 +14,25 @@ const mapRouter = {
       path: 'baseStation',
       component: () => import('@/views/map/BaseStationMap'),
       name: 'baseStation',
-      meta: { title: '基站分布图', noCache: true }
+      meta: { title: '基站分布图', noCache: true },
+      // children:[
+      //   {
+      //     path:'/baseStation/:baseStationName',
+      //     component:() => import('@/views/map/BaseStationMap'),
+      //     name:'RightContent'
+      //   }
+      // ]
     },
     {
       path: 'complaints',
       component: () => import('@/views/map/ComplaintsMap'),
       name: 'Complaints',
       meta: { title: '投诉分布图', noCache: true }
+    },
+    {
+      path:'/baseStation/:baseStationName',
+      component:() => import('@/views/map/BaseStationMap'),
+      name:'RightContent'
     }
   ]
 }
