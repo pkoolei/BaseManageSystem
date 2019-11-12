@@ -197,7 +197,6 @@ export default {
             4078
           ]
         },
-
         {
           name: 'male',
           type: 'bar',
