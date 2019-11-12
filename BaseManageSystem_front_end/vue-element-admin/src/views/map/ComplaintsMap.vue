@@ -6,7 +6,7 @@
 <script>
 export default {
   data() {
-    return { msg: 'vue模板页' }
+    return { msg: '投诉地图页面' }
   }
 }
 </script>
