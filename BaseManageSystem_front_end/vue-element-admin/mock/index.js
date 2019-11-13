@@ -7,13 +7,15 @@ import article from './article'
 import search from './remote-search'
 import coordinate from './coordinate'
 import basestation from './base-station'
+import kpi from './kpi'
 const mocks = [
   ...user,
   ...role,
   ...article,
   ...search,
   ...coordinate,
-  ...basestation
+  ...basestation,
+  ...kpi
 ]
 
 // for front mock
