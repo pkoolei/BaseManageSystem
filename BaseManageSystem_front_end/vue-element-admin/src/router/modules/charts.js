@@ -8,13 +8,13 @@ const chartsRouter = {
   redirect: 'noRedirect',
   name: 'Charts',
   meta: {
-    title: 'Charts',
+    title: 'Charts', // g
     icon: 'chart'
   },
   children: [
     {
       path: 'keyboard',
-      component: () => import('@/views/charts/keyboard'),
+      component: () => import('@/views/charts/keyboard'), // 路径
       name: 'KeyboardChart',
       meta: { title: 'Keyboard Chart', noCache: true }
     },
