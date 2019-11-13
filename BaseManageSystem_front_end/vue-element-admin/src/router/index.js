@@ -11,6 +11,9 @@ import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
+import kpiRouter from './modules/kpi'
+import mapRouter from './modules/map'
+// import baseStationRouter from './modules/baseStation'
 
 import tousuRouter from './modules/tousu'
 /**
@@ -40,6 +43,8 @@ import tousuRouter from './modules/tousu'
  * all roles can be accessed
  */
 export const constantRoutes = [
+  kpiRouter,
+  mapRouter,
   {
     path: '/redirect',
     component: Layout,
@@ -193,6 +198,7 @@ export const asyncRoutes = [
   tousuRouter,
   // g
 
+  // baseStationRouter,
   {
     path: '/example',
     component: Layout,
