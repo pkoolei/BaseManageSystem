@@ -1,5 +1,5 @@
 <template>   
-    <div class="app-container">
+    <div >
       <!-- 表头搜索按钮区域-->
       <div class="filter-container">
       <el-input v-model="findQuery.PhyName" placeholder="--请输入物理站名--" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
