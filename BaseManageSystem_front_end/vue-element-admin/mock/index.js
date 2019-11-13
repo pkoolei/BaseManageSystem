@@ -6,12 +6,14 @@ import role from './role'
 import article from './article'
 import search from './remote-search'
 import coordinate from './coordinate'
+import basestation from './base-station'
 const mocks = [
   ...user,
   ...role,
   ...article,
   ...search,
-  ...coordinate
+  ...coordinate,
+  ...basestation
 ]
 
 // for front mock

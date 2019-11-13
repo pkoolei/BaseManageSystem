@@ -1,21 +1,24 @@
+/** When your routing table is too long, you can split it into small modules**/
+
 import Layout from '@/layout'
 
-const basestationRouter = {
-  path: '/basestation',
+const baseStationRouter = {
+  path: '/basestation-manage',
   component: Layout,
   redirect: 'noRedirect',
-  name: 'BaseStation',
-  meta: {
-    title: '基站台账管理',
+  name: '物理站点管理',
+   meta: {
+    title: '物理站点管理',
     icon: 'table'
-  },
-  children:[
+   },
+  children: [
     {
-      path: 'drag-table',
+      path: 'base-station',
       component: () => import('@/views/basestation-manage/base-station'),
-      name: 'BaseStation',
-      meta: { title: '基站台账管理' }
-    },
-  ]
+      name: '物理站点管理',
+      meta: { title: '物理站点管理' }
+    }
+    ]
 }
-export default basestationRouter
+
+export default baseStationRouter
