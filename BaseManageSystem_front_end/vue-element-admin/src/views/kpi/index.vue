@@ -36,15 +36,19 @@
           <el-form-item>
             <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
                        @click="handleDownload">
-              Export
+              导出
             </el-button>
           </el-form-item>
-
         </el-form>
+        <el-card class="box-card">
+          <div class="text item"> 查询小区结果：</div>
+          <div v-for="o in showSeachContent" :key="o" class="text item">
+            {{o}}
+          </div>
+        </el-card>
       </div>
       <!--展示区-->
       <div class="chart-container" id="01">
-        <!--<chart height="100%" width="100%"/>-->
       </div>
     </div>
   </div>
@@ -182,11 +186,13 @@
           let xlabel = [];
           let yvalue = [];
           let dflow = [];
+          let dpRb =[];
           let arr = [];
           for (arr of this.filterList) {
             xlabel.push(arr.日期);
             yvalue.push(arr.总流量);
             dflow.push(arr.下行吞吐量);
+            dpRb.push(arr.下行PRB利用率)
           }
           ;
           // 基于准备好的dom，初始化echarts实例
@@ -236,7 +242,22 @@
             xAxis: {
               data: xlabel
             },
-            yAxis: {},
+            yAxis: [
+              {
+                type: 'value',
+                name: '流量（GB）',
+                axisLabel: {
+                  formatter: '{value} GB'
+                }
+              },
+              {
+                type: 'value',
+                name: 'pRB利用率',
+                axisLabel: {
+                  formatter: '{value}% '
+                }
+              }
+            ],
             series: [{
               name: '总流量（GB）',
               type: 'bar',
@@ -246,36 +267,47 @@
                 name: '下行吞吐量（GB）',
                 type: 'bar',
                 data: dflow
-              }]
+              }
+              ,
+              {
+                name:'下行pRB利用率',
+                type:'line',
+                yAxisIndex:1,
+                data:dpRb
+              }
+              ]
           });
           });
       },
       handleDownload() {
         this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ["日期",
+          const tHeader = [
+            "日期",
             "基站名称",
             "小区名称",
             "小区双工模式",
             "本地小区标识",
             "完整度",
-            "上行吞吐量 (GB)",
-            "下行吞吐量 (GB)(字节)",
-            "总流量(GB)"]
+            "上行吞吐量",
+            "下行吞吐量",
+            "总流量",
+            "下行PRB利用率"]
           const filterVal = ["日期",
             "基站名称",
             "小区名称",
             "小区双工模式",
             "本地小区标识",
             "完整度",
-            "上行吞吐量 (GB)",
-            "下行吞吐量 (GB)(字节)",
-            "总流量(GB)"]
+            "上行吞吐量",
+            "下行吞吐量",
+            "总流量",
+            "下行PRB利用率"]
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: 'table-list'
+            filename: 'xxx小区业务量'
           })
           this.downloadLoading = false
         })
@@ -288,15 +320,16 @@
             return v[j]
           }
         }))
-      }
+      },
     },
     computed: {
       filterPlaceholder() {
         return "请输入" + this.filterValue;
-      }
-    },
-    components: {
-      // Chart
+      },
+      showSeachContent(){
+        let arr = this.filterList.map(a=>a["小区名称"]);
+        return Array.from(new Set(arr));
+    }
     },
     directives: {waves},
     beforeDestroy() {
@@ -310,10 +343,13 @@
 </script>
 
 
-<style>
+<style scoped>
   .chart-container {
     position: relative;
     width: 100%;
     height: calc(100vh - 84px);
+  }
+  .box-card {
+    width: 480px;
   }
 </style>
