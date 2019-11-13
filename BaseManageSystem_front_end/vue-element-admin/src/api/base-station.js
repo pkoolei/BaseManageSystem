@@ -8,3 +8,11 @@ export function getList(query){
     params:query
   })
 }
+//删除站点数据
+export function deleteStation(query){
+  return request({
+    url:''+query.id,
+    method:'delete',
+    params:query
+  })
+}

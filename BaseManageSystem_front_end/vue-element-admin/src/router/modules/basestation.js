@@ -6,7 +6,7 @@ const baseStationRouter = {
   path: '/basestation-manage',
   component: Layout,
   redirect: 'noRedirect',
-  name: '物理站点管理',
+  name: 'PhysicalStation',
    meta: {
     title: '物理站点管理',
     icon: 'table'
