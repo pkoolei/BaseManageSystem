@@ -13,9 +13,7 @@ import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
 import kpiRouter from './modules/kpi'
 import mapRouter from './modules/map'
-import basestationRouter from './modules/baseStation'
-// import baseStationRouter from './modules/baseStation'
-
+import basestationRouter from './modules/basestation'
 import tousuRouter from './modules/tousu'
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -47,6 +45,7 @@ export const constantRoutes = [
   kpiRouter,
   mapRouter,
   tousuRouter,
+  basestationRouter,
   {
     path: '/redirect',
     component: Layout,

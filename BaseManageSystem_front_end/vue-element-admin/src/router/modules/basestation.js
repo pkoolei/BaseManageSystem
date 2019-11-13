@@ -3,7 +3,7 @@
 import Layout from '@/layout'
 
 const baseStationRouter = {
-  path: '/basestation',
+  path: '/basestation-manage',
   component: Layout,
   redirect: 'noRedirect',
   name: '物理站点管理',
