@@ -4,7 +4,7 @@
 
       <el-form-item label="派单时间">
         <el-col :span="11">
-          <el-date-picker v-model="form.date1" type="date" placeholder="选择日期" style="width: 100%;" />
+          <el-date-picker v-model="form.sendtime" type="date" placeholder="选择日期" style="width: 100%;" />
         </el-col>
         <el-col class="line" :span="2">-</el-col>
         <el-col :span="11">
@@ -13,12 +13,12 @@
       </el-form-item>
 
       <el-form-item label="投诉号码">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.phonenumber" />
       </el-form-item>
 
       <el-form-item label="客服要求回复时限">
         <el-col :span="11">
-          <el-date-picker v-model="form.date1" type="date" placeholder="选择日期" style="width: 100%;" />
+          <el-date-picker v-model="form.deadline" type="date" placeholder="选择日期" style="width: 100%;" />
         </el-col>
         <el-col class="line" :span="2">-</el-col>
         <el-col :span="11">
@@ -27,18 +27,18 @@
       </el-form-item>
 
       <el-form-item label="网络类型">
-        <el-select v-model="form.region" placeholder="请选择网络类型">
+        <el-select v-model="form.nettype" placeholder="请选择网络类型">
           <el-option label="LTE" value="LTE" />
           <el-option label="WCDMA" value="WCDMA" />
         </el-select>
       </el-form-item>
 
       <el-form-item label="工单编号">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.WOnumber" />
       </el-form-item>
 
       <el-form-item label="处理状态">
-        <el-select v-model="form.region" placeholder="请选择活动区域">
+        <el-select v-model="form.status" placeholder="请选择活动区域">
           <el-option label="待处理" value="shanghai" />
           <el-option label="处理中" value="beijing" />
           <el-option label="已完成" value="beijing" />
@@ -46,31 +46,31 @@
       </el-form-item>
 
       <el-form-item label="工单主题">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.WOtheme" />
       </el-form-item>
 
       <el-form-item label="投诉内容">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.complaint" />
       </el-form-item>
 
       <el-form-item label="备注">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.remarks" />
       </el-form-item>
 
       <el-form-item label="责任人">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.responsible" />
       </el-form-item>
 
       <el-form-item label="责任人电话">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.responnumber" />
       </el-form-item>
 
       <el-form-item label="问题原因">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.reason" />
       </el-form-item>
 
       <el-form-item label="解决方案">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.solution" />
       </el-form-item>
 
       <el-form-item>
@@ -82,25 +82,26 @@
   </div>
 </template>
 
-<style>
-    body {
-        background-color: #ff0000;
-    }
-</style>
+
 
 <script>
 export default {
   data() {
     return {
       form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        sendtime: '',
+        phonenumber: '',
+        deadline: '',
+        nettype:'',
+        WOnumber: '',
+        status: '',
+        WOtheme: [],
+        complaint:'',
+        remarks:'',
+        responsible:'',
+        responnumber:'',
+        reason: '',
+        solution: ''
       }
     }
   },
@@ -108,7 +109,16 @@ export default {
     onSubmit() {
       console.log('submit!')
     }
+  },
+  mounted(){
+
   }
 }
 </script>
-</script>
+
+
+<style scoped>
+body{
+  background-color: darkgrey;
+}
+</style>
