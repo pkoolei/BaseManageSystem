@@ -15,6 +15,8 @@ import kpiRouter from './modules/kpi'
 import mapRouter from './modules/map'
 import basestationRouter from './modules/baseStation'
 // import baseStationRouter from './modules/baseStation'
+
+import tousuRouter from './modules/tousu'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -43,6 +45,8 @@ import basestationRouter from './modules/baseStation'
  */
 export const constantRoutes = [
   kpiRouter,
+  mapRouter,
+  tousuRouter,
   {
     path: '/redirect',
     component: Layout,
@@ -133,6 +137,7 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+
   {
     path: '/permission',
     component: Layout,
@@ -193,7 +198,7 @@ export const asyncRoutes = [
   chartsRouter,
   nestedRouter,
   tableRouter,
-  mapRouter,
+
   // baseStationRouter,
   {
     path: '/example',
