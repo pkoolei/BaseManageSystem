@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.title" placeholder="请输入基站名称" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="listQuery.baseStationName" placeholder="请输入基站名称" class="filter-item" @keyup.enter.native="handleFilter" />
     </div>
-    <el-table :data="baseStationInfo" >
+    <el-table :data="pageData" >
           <el-table-column >
             <template slot-scope="scope">
               <router-link :to="{name:'RightContent',params:{id:scope.row.id,baseStationName:scope.row.baseStationName,coordinate:scope.row.coordinate}}">
@@ -24,9 +24,11 @@ export default {
     return {
       msg:'sss',
       listQuery: {
+        id:0,
         baseStationName: ''
       },
-      baseStationInfo: []
+      baseStationInfo: [],
+      pageData:[]
     }
   },
   mounted() {
@@ -34,12 +36,36 @@ export default {
     fetchList(this.listQuery).then(res => {
       console.log(res.data)
       this.baseStationInfo = res.data.baseStationList
+      this.getList();
     })
+  },
+  methods:{
+
+    getList(){
+      let  {id,baseStationName}  = this.listQuery;
+      let filterData = [];
+      filterData=this.baseStationInfo.filter(res=>{
+        //针对基站名称进行过滤
+      if(baseStationName && res.baseStationName.indexOf(baseStationName)==-1)
+              return false;
+      return true;
+      })
+
+      console.log("过滤数据",filterData)
+      this.pageData = filterData;
+      // //设置数据总数为过滤后的总数据量
+      let total=filterData.length;
+      console.log("----------------",total)
+
+    },
+    handleFilter() {
+      this.getList();
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .app-container{
   width: 225px !important;
 }
