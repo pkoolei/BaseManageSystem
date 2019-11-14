@@ -6,7 +6,7 @@
     <el-table :data="pageData" >
           <el-table-column >
             <template slot-scope="scope">
-              <router-link :to="{name:'RightContent',params:{id:scope.row.id,baseStationName:scope.row.baseStationName,coordinate:scope.row.coordinate}}">
+              <router-link :to="{name:'RightContent',params:{id:scope.row.id,baseStationName:scope.row.baseStationName,coordinate:scope.row.coordinate,directionAngle:scope.row.directionAngle}}">
                 <a>{{scope.row.baseStationName}}</a>
               </router-link>
               <!--<a :href="scope.row.baseStationName" target="_blank" class="buttonText">{{scope.row.baseStationName}}</a>-->
