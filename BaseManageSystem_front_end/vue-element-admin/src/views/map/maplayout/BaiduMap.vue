@@ -1,11 +1,15 @@
 <template>
   <div class="el-container">
-    <baidu-map class="el-container" ak="QHfyH958vAdIKPMlfY2RlfgaSBdgRWmc" :center="circlePath.center" :zoom="zoom" @ready="handler">
+    <baidu-map class="el-container" ak="QHfyH958vAdIKPMlfY2RlfgaSBdgRWmc" :center="center" :zoom="zoom" @ready="handler">
         <!--<bm-marker :position="center" >-->
         <!--</bm-marker>-->
-      <bm-circle :center="circlePath.center" :radius="circlePath.radius" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2" @lineupdate="updateCirclePath" :editing="true" @click="infoClick"></bm-circle>
-      <bm-info-window  :position="circlePath.center" title="站点信息" :show="infoWindow.show" @close="infoWindowClose" @open="infoWindowOpen">
-        <p v-text="infoWindow.contents"></p>
+      <bm-polygon :path="polygonPath1" stroke-color="purple" fill-color="purple" :stroke-opacity="1" :stroke-weight="0.8" :editing="false" @lineupdate="updatePolygonPath" @click="infoClick1"/>
+      <bm-polygon :path="polygonPath2" stroke-color="purple" fill-color="purple" :stroke-opacity="0.8" :stroke-weight="1" :editing="false" @lineupdate="updatePolygonPath" @click="infoClick2"/>
+      <bm-polygon :path="polygonPath3" stroke-color="purple" fill-color="purple" :stroke-opacity="0.8" :stroke-weight="1" :editing="false" @lineupdate="updatePolygonPath" @click="infoClick3"/>
+      <bm-info-window class="container" :position="infoWindowCenter" title="站点信息"  :show="infoWindow.show" @close="infoWindowClose" @open="infoWindowOpen">
+        <!--<p v-text="infoWindow.contents"></p>-->
+        <p>基站名：{{infoWindow.contents.baseStationName}}</p>
+        <p>方向角：{{infoWindow.contents.areaDirectionAngle}}</p>
       </bm-info-window>
     </baidu-map>
     <router-view></router-view>
@@ -18,32 +22,40 @@
   import BaiduMap from 'vue-baidu-map/components/map/Map'
   import BmMarker from 'vue-baidu-map/components/overlays/Marker'
   import BmCircle from 'vue-baidu-map/components/overlays/Circle'
+  import BmPolygon from 'vue-baidu-map/components/overlays/Polygon'
   import BmInfoWindow from 'vue-baidu-map/components/overlays/InfoWindow'
     export default {
       components: {
         BaiduMap,
         BmMarker,
-        BmCircle,
+        // BmCircle,
+        BmPolygon,
         BmInfoWindow
       },
       data(){
         return {
           msg: 'vue模板页',
-          // center:{
-          //   lng:113.329,
-          //   lat:23.11
-          // },
-          zoom:15,
-          circlePath: {
-            center: {
-              lng: 113.329,
-              lat: 23.11
-            },
-            radius: 500
+          center:{
+            lng:113.329,
+            lat:23.11
           },
+          infoCenter:[],
+          infoWindowCenter:{
+            lng:0,
+            lat:0
+          },
+          zoom:15,
+          polygonPath1: [],
+          polygonPath2: [],
+          polygonPath3: [],
+          directionAngle:[],
+          message:"11111",
           infoWindow: {
             show: false,
-            contents:""
+            contents:{
+              baseStationName:"",
+              areaDirectionAngle:0
+            }
           }
         }
       },
@@ -54,20 +66,130 @@
       // },
       methods: {
         handler ({BMap, map}) {
-          this.circlePath.center.lng = this.$route.params.coordinate.lng,
-          this.circlePath.center.lat = this.$route.params.coordinate.lat,
+          this.center.lng = this.$route.params.coordinate.lng,
+          this.center.lat = this.$route.params.coordinate.lat,
+          this.directionAngle = this.$route.params.directionAngle,
+          this.infoWindow.contents.baseStationName = this.$route.params.baseStationName,
+          // this.infoWindow.contents.areaDirectionAngle = this.$route.params.directionAngle
           this.zoom = 15
-        },
-        infoClick(){
-          this.infoWindow.show = !this.infoWindow.show,
+          let areaNums = this.directionAngle.length;
+          let x0 = this.$route.params.coordinate.lng;
+          let y0 =  this.$route.params.coordinate.lat;
+          let r = 0.003;
 
-          this.infoWindow.contents="地址："+this.$route.params.baseStationName
-          //   this.infoWindow.contents="方向角："
+          if(areaNums == 1){
+            let angel_1 = (this.directionAngle[0]/180)*Math.PI;
+            let x1,x2,y1,y2;
+
+            let x1_offset = r*Math.sin(angel_1-Math.PI/6);
+            let y1_offset = r*Math.cos(angel_1-Math.PI/6);
+            let x2_offset = r*Math.sin(angel_1+Math.PI/6);
+            let y2_offset = r*Math.cos(angel_1+Math.PI/6);
+
+            x1=x0+x1_offset;
+            y1=y0+y1_offset;
+            x2=x0+x2_offset;
+            y2=y0+y2_offset;
+
+            this.polygonPath1=[{lng: x0, lat: y0},{lng: x1, lat: y1},{lng: x2, lat: y2}]
+            this.infoCenter=[{lng: x1, lat: y1}]
+          }
+          if(areaNums == 2){
+            let x1,x2,x3,x4,y1,y2,y3,y4;
+            let angel_1 = (this.directionAngle[0]/180)*Math.PI;
+            let angel_2 = (this.directionAngle[1]/180)*Math.PI;
+
+            let x1_offset = r*Math.sin(angel_1-Math.PI/6);
+            let y1_offset = r*Math.cos(angel_1-Math.PI/6);
+            let x2_offset = r*Math.sin(angel_1+Math.PI/6);
+            let y2_offset = r*Math.cos(angel_1+Math.PI/6);
+            let x3_offset = r*Math.sin(angel_2-Math.PI/6);
+            let y3_offset = r*Math.cos(angel_2-Math.PI/6);
+            let x4_offset = r*Math.sin(angel_2+Math.PI/6);
+            let y4_offset = r*Math.cos(angel_2+Math.PI/6);
+
+            x1=x0+x1_offset;
+            y1=y0+y1_offset;
+            x2=x0+x2_offset;
+            y2=y0+y2_offset;
+            x3=x0+x3_offset;
+            y3=y0+y3_offset;
+            x4=x0+x4_offset;
+            y4=y0+y4_offset;
+
+            this.polygonPath1=[{lng: x0, lat: y0},{lng: x1, lat: y1},{lng: x2, lat: y2}]
+            this.polygonPath2=[{lng: x0, lat: y0},{lng: x3, lat: y3},{lng: x4, lat: y4}]
+            this.infoCenter=[{lng: x1, lat: y1},{lng: x3, lat: y3}]
+
+          }
+          if(areaNums == 3){
+            let x1,x2,x3,x4,x5,x6,y1,y2,y3,y4,y5,y6;
+            let angel_1 = (this.directionAngle[0]/180)*Math.PI;
+            let angel_2 = (this.directionAngle[1]/180)*Math.PI;
+            let angel_3 = (this.directionAngle[2]/180)*Math.PI;
+
+            let x1_offset = r*Math.sin(angel_1-Math.PI/6);
+            let y1_offset = r*Math.cos(angel_1-Math.PI/6);
+            let x2_offset = r*Math.sin(angel_1+Math.PI/6);
+            let y2_offset = r*Math.cos(angel_1+Math.PI/6);
+            let x3_offset = r*Math.sin(angel_2-Math.PI/6);
+            let y3_offset = r*Math.cos(angel_2-Math.PI/6);
+            let x4_offset = r*Math.sin(angel_2+Math.PI/6);
+            let y4_offset = r*Math.cos(angel_2+Math.PI/6);
+            let x5_offset = r*Math.sin(angel_3-Math.PI/6);
+            let y5_offset = r*Math.cos(angel_3-Math.PI/6);
+            let x6_offset = r*Math.sin(angel_3+Math.PI/6);
+            let y6_offset = r*Math.cos(angel_3+Math.PI/6);
+
+            x1=x0+x1_offset;
+            y1=y0+y1_offset;
+            x2=x0+x2_offset;
+            y2=y0+y2_offset;
+            x3=x0+x3_offset;
+            y3=y0+y3_offset;
+            x4=x0+x4_offset;
+            y4=y0+y4_offset;
+            x5=x0+x5_offset;
+            y5=y0+y5_offset;
+            x6=x0+x6_offset;
+            y6=y0+y6_offset;
+
+            this.polygonPath1=[{lng: x0, lat: y0},{lng: x1, lat: y1},{lng: x2, lat: y2}];
+            this.polygonPath2=[{lng: x0, lat: y0},{lng: x3, lat: y3},{lng: x4, lat: y4}];
+            this.polygonPath3=[{lng: x0, lat: y0},{lng: x5, lat: y5},{lng: x6, lat: y6}];
+            this.infoCenter=[{lng: x1, lat: y1},{lng: x3, lat: y3},{lng: x5, lat: y5}]
+          }
+        },
+        infoClick1(){
+          this.infoWindow.show = !this.infoWindow.show
+          this.infoWindow.contents.baseStationName=this.infoWindow.contents.baseStationName
+          this.infoWindow.contents.areaDirectionAngle=this.directionAngle[0]
+          this.infoWindowCenter=this.infoCenter[0]
+        },
+        infoClick2(){
+          this.infoWindow.show = !this.infoWindow.show
+          this.infoWindow.contents.baseStationName=this.infoWindow.contents.baseStationName
+          this.infoWindow.contents.areaDirectionAngle=this.directionAngle[1]
+          this.infoWindowCenter=this.infoCenter[1]
+        },
+        infoClick3(){
+          this.infoWindow.show = !this.infoWindow.show
+          this.infoWindow.contents.baseStationName=this.infoWindow.contents.baseStationName
+          this.infoWindow.contents.areaDirectionAngle=this.directionAngle[2]
+          this.infoWindowCenter=this.infoCenter[2]
         },
         updateCirclePath (e) {
           this.circlePath.center = e.target.getCenter()
           this.circlePath.radius = e.target.getRadius()
         },
+        updatePolygonPath (e) {
+          this.polygonPath1 = e.target.getPath(),
+          this.polygonPath2 = e.target.getPath(),
+          this.polygonPath3 = e.target.getPath()
+        },
+        // addPolygonPoint () {
+        //   this.polygonPath.push({lng: 0, lat: 0})
+        // },
         infoWindowClose (e) {
           this.infoWindow.show = false
         },
