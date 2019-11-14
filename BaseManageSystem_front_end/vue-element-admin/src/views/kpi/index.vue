@@ -48,9 +48,18 @@
         </el-card>
       </div>
       <!--展示区-->
-      <div class="chart-container" id="01">
-      </div>
+      <el-collapse v-model="activeNames">
+        <el-collapse-item title="查询流量图" name="1" >
+          <el-card class="chart-card">
+            <div class="chart-container" id="01"></div>
+          </el-card>
+        </el-collapse-item>
+        <el-collapse-item title="流量预警" name="2">
+          <flowwarm></flowwarm>
+        </el-collapse-item>
+      </el-collapse>
     </div>
+
   </div>
 </template>
 
@@ -61,12 +70,14 @@
   import {parseTime} from '@/utils'
   import echarts from 'echarts'
   import {fetchList} from '@/api/kpi'
+  import flowwarm from '@/views/kpi/flowwarm.vue'
 
   export default {
 
     data() {
 
       return {
+        activeNames: ['2'],
         filterOptions: [{
           value: '网管小区名',
           label: '网管小区名'
@@ -331,6 +342,7 @@
         return Array.from(new Set(arr));
     }
     },
+    components:{flowwarm},
     directives: {waves},
     beforeDestroy() {
       if (!this.myChart) {
@@ -351,5 +363,8 @@
   }
   .box-card {
     width: 480px;
+  }
+  .chart-card{
+    width:100%;
   }
 </style>
