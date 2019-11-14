@@ -14,7 +14,7 @@
         <el-table-column prop="time" label="创建时间"></el-table-column>
         <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
           <template slot-scope="{row}">
-            <el-button  size="mini" type="success" @click="editTable=true">编辑</el-button>
+            <el-button  size="mini" type="success" @click="editStation(row)">编辑</el-button>
             <el-button  size="mini" type="danger" @click="delStation(row)">删除</el-button>
           </template>
         </el-table-column>
@@ -28,7 +28,7 @@
             <el-form-item label="物理站名"> <el-input v-model="editForm.name" style="width: 300px" placeholder="请输入物理站名"></el-input></el-form-item>
             <el-form-item label="流量"><el-input v-model="editForm.rate" style="width: 220px" placeholder="请输入站点流量" ></el-input></el-form-item>
             <el-form-item label="地址"><el-input v-model="editForm.place" style="width:400px" placeholder="请输入站点地址"></el-input></el-form-item>
-            <el-form-item> <el-button type="primary" @click="">保存修改</el-button> <el-button type="primary" @click="editTable=false">取消修改</el-button></el-form-item>
+            <el-form-item> <el-button type="primary" @click="savaEdit()">保存修改</el-button> <el-button type="primary" @click="editTable=false">取消修改</el-button></el-form-item>
           </el-form>
       </el-dialog>
 
@@ -37,33 +37,29 @@
     </div>
 </template>
 <script>
-
-
   import { getList,deleteStation} from '@/api/base-station'
   import Pagination from '@/components/Pagination'
-
     export default {
         data() {
           return{
-            listLoading:true,
-            //    查询数据
+            listLoading:true,//    查询数据
             findQuery:{
               PhyName:'', //站点物理名
               limit:'20',//每页显示的数目
               page:'0',//页码数
             },
-            total:'0',//
-          //    后台获取的所有数据
-            baseData:[],
+            total:'0',
+            baseData:[],//    后台获取的所有数据
       //      pageData:[],//分页数据
             editTable:false,  //控制编辑框是否弹出
              editForm:{    //修改编辑框 修改的数据
-               id:'',
+               id:0,
                name:'',
                place:'',
                time:'',
-               rate:'',
-             }
+               rate:0.00,
+             },//编辑form中的数据
+             editID:-1    //判断该列数据时候是编辑状态  并且记录当时编辑ID数目
           }
           },
       components:{
@@ -76,8 +72,6 @@
          *目前用前端删除 后台删除已经注释了，后期再做修改
          **/
           delStation(row){
-            console.log('行数：'),
-              console.log(row),
             this.$confirm('是否删除？','提示',{
               confirmButtonText:'确定',
               cancelButtonText:'取消',
@@ -103,7 +97,40 @@
 //                message:'取消删除'
               });
             })
-          }
+          },
+        /**
+         * 前端编辑按钮响应,启动编辑模态对话框
+         ***/
+        editStation(row){
+          this.editTable=!this.editTable;
+          console.log("编辑");
+          this.baseData.forEach(news=>{
+            if(news.id==row.id){
+              this.editID=row.id;
+            }
+            this.editForm=row;
+           // console.log(this.editFrom);
+          })
+          console.log(row);
+          console.log(this.editForm);
+
+
+
+        },
+        /**
+         * 模态对话框中保存按钮确认
+         * */
+        savaEdit(){
+          this.editTable=!this.editTable;
+          let index=-1;
+          this.baseData.forEach((item,idx)=>{
+            if(item.id==this.editID){
+              index=idx;
+            }
+          })
+          this.baseData.splice(index,1,this.editForm);
+          this.editID=-1;
+        }
       },
 
       mounted(){

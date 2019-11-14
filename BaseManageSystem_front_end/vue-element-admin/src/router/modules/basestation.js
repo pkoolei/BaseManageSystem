@@ -16,7 +16,15 @@ const baseStationRouter = {
       path: 'base-station',
       component: () => import('@/views/basestation-manage/base-station'),
       name: '物理站点管理',
-      meta: { title: '物理站点管理' }
+      meta: { title: '台帐信息' }
+    },
+    {
+      path:'base-charts',
+      component:()=>import('@/views/basestation-manage/base-charts'),
+      name:'物理台账统计',
+      meta:{
+        title:'台账统计',
+      }
     }
     ]
 }
