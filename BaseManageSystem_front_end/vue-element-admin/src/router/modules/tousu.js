@@ -16,13 +16,13 @@ const tousuRouter = {
       path: 'AddTousu',
       component: () => import('@/views/tousu/AddTousu'),//路径
     name: 'AddTousu',
-  meta: { title: 'Add Tousu', noCache: true }
+  meta: { title: '新增投诉', noCache: true }
 },
 {
   path: 'ShowTousu',
     component: () => import('@/views/tousu/ShowTousu'),
   name: 'ShowTousu',
-  meta: { title: 'Show Tousu', noCache: true }
+  meta: { title: '投诉信息', noCache: true }
 }
 ]
 }
