@@ -48,7 +48,7 @@
         </el-card>
       </div>
       <!--展示区-->
-      <el-collapse v-model="activeNames">
+      <el-collapse v-model="activeNames" class="chart-container-col">
         <el-collapse-item title="查询流量图" name="1" >
           <el-card class="chart-card">
             <div class="chart-container" id="01"></div>
@@ -358,8 +358,11 @@
 <style scoped>
   .chart-container {
     position: relative;
-    width: 100%;
+    width: 100%!important;
     height: calc(100vh - 84px);
+  }
+  .chart-container-col{
+    width: 100%!important;
   }
   .box-card {
     width: 480px;
