@@ -35,12 +35,12 @@
     <el-table-column
       prop="complaint"
       label="投诉内容"
-      width="250">
+      width="350">
     </el-table-column>
     <el-table-column
       prop="remarks"
       label="备注"
-      width="280">
+      width="380">
     </el-table-column>
     <el-table-column
       prop="responsible"
@@ -53,14 +53,86 @@
     <el-table-column
       prop="reason"
       label="原因"
-      width="280">
+      width="380">
     </el-table-column>
     <el-table-column
       prop="solution"
       label="解决方案"
-      width="280">
+      width="380">
+    </el-table-column>
+    <el-table-column label="操作"  fixed="right" align="center" width="170" class-name="small-padding fixed-width">
+      <template slot-scope="{row}">
+        <el-button  size="mini" type="success" @click="editStation(row)">编辑</el-button>
+        <el-button  size="mini" type="danger" @click="delStation(row)">删除</el-button>
+      </template>
     </el-table-column>
   </el-table>
+
+  <!--&lt;!&ndash;编辑模态框&ndash;&gt;-->
+  <!--<el-dialog :visible.sync="editTable">-->
+    <!--<el-table-->
+      <!--:data="tableData"-->
+      <!--style="width: 100%">-->
+      <!--<el-table-column-->
+        <!--prop="sendtime"-->
+        <!--label="派单时间"-->
+        <!--width="100">-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="phonenumber"-->
+        <!--label="投诉号码"-->
+        <!--width="100">-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="deadline"-->
+        <!--label="客服要求回复时限">-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="nettype"-->
+        <!--label="网络类型">-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="WOnumber"-->
+        <!--label="工单编号">-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="status"-->
+        <!--label="处理状态">-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="WOtheme"-->
+        <!--label="工单主题">-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="complaint"-->
+        <!--label="投诉内容"-->
+        <!--width="350">-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="remarks"-->
+        <!--label="备注"-->
+        <!--width="380">-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="responsible"-->
+        <!--label="负责人">-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="responnumber"-->
+        <!--label="负责人电话">-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="reason"-->
+        <!--label="原因"-->
+        <!--width="380">-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="solution"-->
+        <!--label="解决方案"-->
+        <!--width="380">-->
+      <!--</el-table-column>-->
+  <!--</el-dialog>-->
+  <!--</el-table>-->
 </template>
 
 <script>
@@ -126,3 +198,298 @@
 
 </style>
 
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+  <!--<meta charset="UTF-8" />-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0" />-->
+  <!--<meta http-equiv="X-UA-Compatible" content="ie=edge" />-->
+  <!--<link-->
+    <!--rel="stylesheet"-->
+    <!--href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"-->
+  <!--/>-->
+
+  <!--<script lang="javascript" src="dist/xlsx.full.min.js"></script>-->
+  <!--<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>-->
+  <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+  <!--<title>Document</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<input type="file" οnchange="importf(this)" />-->
+<!--<div id="app">-->
+  <!--<el-table-->
+    <!--:data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"-->
+    <!--style="width: 100%"-->
+  <!--&gt;-->
+    <!--<el-table-column-->
+      <!--v-for="(item,key,index) in tableData[0]"-->
+      <!--:key="index"-->
+      <!--:prop="key"-->
+      <!--:label="key"-->
+      <!--width="180"-->
+    <!--&gt;</el-table-column>-->
+  <!--</el-table>-->
+  <!--<el-pagination-->
+    <!--@size-change="handleSizeChange"-->
+    <!--@current-change="handleCurrentChange"-->
+    <!--:current-page="currentPage"-->
+    <!--:page-sizes="[15, 20, 30, 40]"-->
+    <!--:page-size="pagesize"-->
+    <!--layout="total, sizes, prev, pager, next, jumper"-->
+    <!--:total="tableData.length"-->
+  <!--&gt;-->
+  <!--</el-pagination>-->
+<!--</div>-->
+<!--<script>-->
+  <!--var vue = new Vue({-->
+    <!--el: "#app",-->
+    <!--data: {-->
+      <!--tableData: [],-->
+      <!--currentPage: 1,-->
+      <!--pagesize: 15-->
+    <!--},-->
+    <!--methods: {-->
+      <!--// 初始页currentPage、初始每页数据数pagesize和数据data-->
+      <!--handleSizeChange: function(size) {-->
+        <!--this.pagesize = size;-->
+        <!--console.log(this.pagesize); //每页下拉显示数据-->
+      <!--},-->
+      <!--handleCurrentChange: function(currentPage) {-->
+        <!--this.currentPage = currentPage;-->
+        <!--console.log(this.currentPage); //点击第几页-->
+      <!--}-->
+    <!--}-->
+  <!--});-->
+
+  <!--function importf(obj) {-->
+    <!--//导入-->
+    <!--if (!obj.files) {-->
+      <!--return;-->
+    <!--}-->
+    <!--var f = obj.files[0];-->
+    <!--console.log(f);-->
+    <!--var reader = new FileReader();-->
+    <!--var jsonobject_0;-->
+    <!--var result = [];-->
+    <!--reader.onload = function(e) {-->
+      <!--var data = e.target.result;-->
+      <!--//获取xlsx对象-->
+      <!--var workbook = XLSX.read(data, {-->
+        <!--type: "binary"-->
+      <!--});-->
+
+      <!--jsonobject_0 = XLSX.utils.sheet_to_json(-->
+        <!--workbook.Sheets[workbook.SheetNames[0]]-->
+      <!--);-->
+      <!--vue.$data.tableData = jsonobject_0;-->
+      <!--console.log(jsonobject_0);-->
+    <!--};-->
+    <!--reader.readAsBinaryString(f);-->
+  <!--}-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+<!--————————————————-->
+<!--版权声明：本文为CSDN博主「執念有叁」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。-->
+<!--原文链接：https://blog.csdn.net/Handsome3618/article/details/86546647-->
+
+<!--<!DOCTYPE html>-->
+<!--<html class="over_hidd">-->
+<!--<head>-->
+  <!--<meta charset="UTF-8">-->
+  <!--<title>vue+element后台系统"</title>-->
+  <!--<meta name="Author" content="Lee">-->
+  <!--<meta name="Keywords" content="vue+element后台系统">-->
+  <!--<link rel="stylesheet" href="css/public.css" />-->
+  <!--<link rel="stylesheet" href="css/element.css" />-->
+<!--</head>-->
+<!--<body class="over_hidd">-->
+<!--<div id="app" class="over_hidd">-->
+  <!--<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">-->
+    <!--<el-form-item label="活动名称" prop="name">-->
+      <!--<el-input v-model="ruleForm.name"></el-input>-->
+    <!--</el-form-item>-->
+    <!--<el-form-item label="活动区域" prop="region">-->
+      <!--<el-select v-model="ruleForm.region" placeholder="请选择活动区域">-->
+        <!--<el-option label="区域一" value="shanghai"></el-option>-->
+        <!--<el-option label="区域二" value="beijing"></el-option>-->
+      <!--</el-select>-->
+    <!--</el-form-item>-->
+    <!--<el-form-item label="活动时间" required>-->
+      <!--<el-col :span="11">-->
+        <!--<el-form-item prop="date1">-->
+          <!--<el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>-->
+        <!--</el-form-item>-->
+      <!--</el-col>-->
+      <!--<el-col class="line" :span="2">-</el-col>-->
+      <!--<el-col :span="11">-->
+        <!--<el-form-item prop="date2">-->
+          <!--<el-time-picker type="fixed-time" placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>-->
+        <!--</el-form-item>-->
+      <!--</el-col>-->
+    <!--</el-form-item>-->
+    <!--<el-form-item label="即时配送" prop="delivery">-->
+      <!--<el-switch v-model="ruleForm.delivery"></el-switch>-->
+    <!--</el-form-item>-->
+    <!--<el-form-item label="颜色值" prop="color">-->
+      <!--<el-color-picker-->
+        <!--v-model="ruleForm.color"-->
+        <!--show-alpha-->
+        <!--:predefine="predefineColors">-->
+      <!--</el-color-picker>-->
+    <!--</el-form-item>-->
+    <!--<div>-->
+      <!--<span v-for="key in ruleForm.upload">{{key.url}}</span><br/>-->
+    <!--</div>-->
+    <!--<el-form-item label="上传图片" prop="upload">-->
+      <!--<el-upload-->
+        <!--v-model="ruleForm.upload"-->
+        <!--action="https://jsonplaceholder.typicode.com/posts/"-->
+        <!--list-type="picture-card"-->
+        <!--:on-preview="handlePictureCardPreview"-->
+        <!--:on-success="uploadImg"-->
+        <!--:on-remove="handleRemove" multiple>-->
+        <!--<i class="el-icon-plus"></i>-->
+      <!--</el-upload>-->
+      <!--<el-dialog :visible.sync="dialogVisible">-->
+        <!--<img width="100%" :src="dialogImageUrl" alt="">-->
+      <!--</el-dialog>-->
+    <!--</el-form-item>-->
+    <!--<el-form-item label="活动性质" prop="type">-->
+      <!--<el-checkbox-group v-model="ruleForm.type">-->
+        <!--<el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>-->
+        <!--<el-checkbox label="地推活动" name="type"></el-checkbox>-->
+        <!--<el-checkbox label="线下主题活动" name="type"></el-checkbox>-->
+        <!--<el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>-->
+      <!--</el-checkbox-group>-->
+    <!--</el-form-item>-->
+    <!--<el-form-item label="特殊资源" prop="resource">-->
+      <!--<el-radio-group v-model="ruleForm.resource">-->
+        <!--<el-radio label="线上品牌商赞助"></el-radio>-->
+        <!--<el-radio label="线下场地免费"></el-radio>-->
+      <!--</el-radio-group>-->
+    <!--</el-form-item>-->
+    <!--<el-form-item label="活动形式" prop="desc">-->
+      <!--<el-input type="textarea" v-model="ruleForm.desc"></el-input>-->
+    <!--</el-form-item>-->
+    <!--<el-form-item>-->
+      <!--<el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>-->
+      <!--<el-button @click="resetForm('ruleForm')">重置</el-button>-->
+    <!--</el-form-item>-->
+  <!--</el-form>-->
+<!--</div>-->
+<!--</body>-->
+<!--<script type="text/javascript" src="js/vue.js" ></script>-->
+<!--<script type="text/javascript" src="js/element.js" ></script>-->
+<!--<script>-->
+  <!--new Vue({-->
+    <!--el: '#app',-->
+    <!--data() {-->
+      <!--return {-->
+        <!--dialogImageUrl: '',-->
+        <!--dialogVisible: false,-->
+        <!--predefineColors: [-->
+          <!--'#ff4500',-->
+          <!--'#ff8c00',-->
+          <!--'#ffd700',-->
+          <!--'#90ee90',-->
+          <!--'#00ced1',-->
+          <!--'#1e90ff',-->
+          <!--'#c71585',-->
+          <!--'rgba(255, 69, 0, 0.68)',-->
+          <!--'rgb(255, 120, 0)',-->
+          <!--'hsv(51, 100, 98)',-->
+          <!--'hsva(120, 40, 94, 0.5)',-->
+          <!--'hsl(181, 100%, 37%)',-->
+          <!--'hsla(209, 100%, 56%, 0.73)',-->
+          <!--'#c7158577'-->
+        <!--],-->
+        <!--ruleForm: {-->
+          <!--color:'rgba(255, 69, 0, 0.68)',-->
+          <!--name: '',-->
+          <!--region: '',-->
+          <!--date1: '',-->
+          <!--date2: '',-->
+          <!--delivery: false,-->
+          <!--type: [],-->
+          <!--resource: '',-->
+          <!--desc: '',-->
+          <!--upload:[]-->
+        <!--},-->
+        <!--rules: {-->
+          <!--name: [-->
+            <!--{ required: true, message: '请输入活动名称', trigger: 'blur' },-->
+            <!--{ min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }-->
+          <!--],-->
+          <!--region: [-->
+            <!--{ required: true, message: '请选择活动区域', trigger: 'change' }-->
+          <!--],-->
+          <!--date1: [-->
+            <!--{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }-->
+          <!--],-->
+          <!--date2: [-->
+            <!--{ type: 'date', required: true, message: '请选择时间', trigger: 'change' }-->
+          <!--],-->
+          <!--type: [-->
+            <!--{ type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }-->
+          <!--],-->
+          <!--resource: [-->
+            <!--{ required: true, message: '请选择活动资源', trigger: 'change' }-->
+          <!--],-->
+          <!--desc: [-->
+            <!--{ required: true, message: '请填写活动形式', trigger: 'blur' }-->
+          <!--],-->
+          <!--upload:[-->
+            <!--{type: 'array'}-->
+          <!--]-->
+        <!--}-->
+      <!--};-->
+    <!--},-->
+    <!--methods: {-->
+      <!--submitForm(formName) {-->
+        <!--this.$refs[formName].validate((valid) => {-->
+          <!--if (valid) {-->
+            <!--this.$message({-->
+              <!--showClose: true,-->
+              <!--message: '提交成功！',-->
+              <!--type: 'success'-->
+            <!--});-->
+            <!--console.log(this.ruleForm)-->
+          <!--} else {-->
+            <!--this.$message.error('提交失败');-->
+            <!--return false;-->
+          <!--}-->
+        <!--});-->
+      <!--},-->
+      <!--resetForm(formName) {-->
+        <!--this.$refs[formName].resetFields();-->
+      <!--},-->
+      <!--handleRemove(file, fileList) {//删除图片-->
+        <!--var self = this;-->
+        <!--console.log(self.ruleForm.upload)-->
+        <!--for(var i in self.ruleForm.upload){-->
+          <!--if(fileList.response.id==this.ruleForm.upload[i].id){-->
+            <!--delete this.ruleForm.upload[i];-->
+          <!--}-->
+        <!--}-->
+      <!--},-->
+      <!--handlePictureCardPreview(file) {-->
+        <!--this.dialogImageUrl = file.url;-->
+        <!--this.dialogVisible = true;-->
+      <!--},-->
+      <!--uploadImg(response, file, fileList){//长传成功-->
+        <!--this.ruleForm.upload = [];-->
+        <!--for(var i in fileList){-->
+          <!--this.ruleForm.upload.push({-->
+            <!--id:response.id,-->
+            <!--url:fileList[i].url-->
+          <!--});-->
+        <!--}-->
+
+      <!--}-->
+    <!--}-->
+  <!--})-->
+<!--</script>-->
+<!--</html>-->
