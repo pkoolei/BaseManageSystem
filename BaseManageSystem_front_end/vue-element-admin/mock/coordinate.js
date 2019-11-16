@@ -7,7 +7,8 @@ const List=[{
       lng:113.329,
       lat:23.110
     },
-    directionAngle:[0,90,180]
+    directionAngle:[0,90,180],
+
   },{
     id: 2,
     baseStationName: '广州大剧院',

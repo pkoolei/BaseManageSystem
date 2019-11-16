@@ -1,11 +1,13 @@
 <template>
   <div class="el-container">
     <baidu-map class="el-container" ak="QHfyH958vAdIKPMlfY2RlfgaSBdgRWmc" :center="center" :zoom="zoom" @ready="handler">
-        <!--<bm-marker :position="center" >-->
+        <!--<bm-marker :position="points" >-->
         <!--</bm-marker>-->
+      <!--<bm-point-collection :points="points" shape="BMAP_POINT_SHAPE_RHOMBUS" color="blue" size="BMAP_POINT_SIZE_BIG" ></bm-point-collection>-->
       <bm-polygon :path="polygonPath1" stroke-color="purple" fill-color="purple" :stroke-opacity="1" :stroke-weight="0.8" :editing="false" @lineupdate="updatePolygonPath" @click="infoClick1"/>
       <bm-polygon :path="polygonPath2" stroke-color="purple" fill-color="purple" :stroke-opacity="0.8" :stroke-weight="1" :editing="false" @lineupdate="updatePolygonPath" @click="infoClick2"/>
       <bm-polygon :path="polygonPath3" stroke-color="purple" fill-color="purple" :stroke-opacity="0.8" :stroke-weight="1" :editing="false" @lineupdate="updatePolygonPath" @click="infoClick3"/>
+      <!--<bm-point-collection :points="points" shape="BMAP_POINT_SHAPE_RHOMBUS" color="blue" size="BMAP_POINT_SIZE_BIG" @click="clickHandler"></bm-point-collection>-->
       <bm-info-window class="container" :position="infoWindowCenter" title="站点信息"  :show="infoWindow.show" @close="infoWindowClose" @open="infoWindowOpen">
         <!--<p v-text="infoWindow.contents"></p>-->
         <p>基站名：{{infoWindow.contents.baseStationName}}</p>
@@ -19,22 +21,32 @@
 
 <script>
   // https://dafrok.github.io/vue-baidu-map/#/zh/start/usage
+  import { fetchList } from '@/api/coordinate'
   import BaiduMap from 'vue-baidu-map/components/map/Map'
   import BmMarker from 'vue-baidu-map/components/overlays/Marker'
   import BmCircle from 'vue-baidu-map/components/overlays/Circle'
   import BmPolygon from 'vue-baidu-map/components/overlays/Polygon'
   import BmInfoWindow from 'vue-baidu-map/components/overlays/InfoWindow'
+  import BmPointCollection from 'vue-baidu-map/components/overlays/PointCollection'
     export default {
       components: {
         BaiduMap,
-        BmMarker,
-        // BmCircle,
         BmPolygon,
+        BmMarker,
+        BmCircle,
+        BmPointCollection,
         BmInfoWindow
       },
       data(){
         return {
           msg: 'vue模板页',
+          listQuery: {
+            id:0,
+            baseStationName: '',
+            // coordinate:
+          },
+          baseStationInfo: [],
+          points: [],
           center:{
             lng:113.329,
             lat:23.11
@@ -59,11 +71,23 @@
           }
         }
       },
-      // mounted(){
-      //    this.lng=this.$route.params.coordinate[0],
-      //    this.lat=this.$route.params.coordinate[1],
-      //    this.zoom = 15
-      // },
+      mounted(){
+        // 初始获取所有基站数据列表
+        fetchList(this.listQuery).then(res => {
+          this.baseStationInfo = res.data.baseStationList
+          for(let i=0; i <this.baseStationInfo.length;i++){
+            let point = this.baseStationInfo[i].coordinate
+            this.points.push(point)
+            console.log("*****************",point)
+            // this.polygonPath1.push(point)
+            // this.polygonPath2.push(point)
+            // this.polygonPath3.push(point)
+          }
+        })
+
+
+         // this.zoom = 15
+      },
       methods: {
         handler ({BMap, map}) {
           this.center.lng = this.$route.params.coordinate.lng,
