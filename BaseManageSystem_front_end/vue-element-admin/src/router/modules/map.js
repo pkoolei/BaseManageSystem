@@ -32,7 +32,13 @@ const mapRouter = {
     {
       path:'/baseStation/:baseStationName',
       component:() => import('@/views/map/BaseStationMap'),
-      name:'RightContent'
+      name:'BaiduMap'
+    },
+    {
+      path:'test',
+      component:() => import('@/views/map/Test'),
+      // name:'ComplaintsMap',
+      meta: { title: '路由跳转测试', noCache: true },
     }
   ]
 }

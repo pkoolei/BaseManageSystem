@@ -4,6 +4,7 @@
     <bml-heatmap :data="data" :max="100" :radius="20">
     </bml-heatmap>
   </baidu-map>
+    <!--<router-view></router-view>-->
   </div>
   <!--<div> {{ msg }}</div>-->
 </template>
