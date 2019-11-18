@@ -20,7 +20,7 @@ public class Swagger2Config {
                 .apiInfo(apiInfo())//调用下面apiInfo()方法
                 .select()
                 //Controller所在路径
-                .apis(RequestHandlerSelectors.basePackage("com.unicom.news.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.basemanagesystem.backend.controller"))
                 .paths(PathSelectors.any())
                 .build();
  

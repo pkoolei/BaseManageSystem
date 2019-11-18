@@ -20,7 +20,7 @@ for (let i = 0; i < count; i++) {
 
 export default [
   {
-    url: '/kpi/kpi_flow',
+    url: '/kpi/kpi_flow-1-1',
     type: 'get',
     response: config => {
       return {

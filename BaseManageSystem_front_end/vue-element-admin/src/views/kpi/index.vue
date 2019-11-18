@@ -71,9 +71,10 @@
   import echarts from 'echarts'
   import {fetchList} from '@/api/kpi'
   import flowwarm from '@/views/kpi/flowwarm.vue'
+  import resize from './mixins/resize'
 
   export default {
-
+    mixins: [resize],
     data() {
 
       return {
@@ -169,26 +170,29 @@
         ],
         filterList: [],
         myChart: "",
-        listQuery:{}
+        listQuery:{
+          keyword:""
+        }
       }
     },
     methods: {
       search() {
         let startDate = new Date(Date.parse(this.filterDate[0]));
         let endDate = new Date(Date.parse(this.filterDate[1]));
-        fetchList(this.listQuery).then(response => {
-          this.list = response.data;
+        fetchList(this.filterinput).then(response => {
+          this.list = response.data.items;
           //条件查询
-          this.filterList = this.list.filter(arr => {
-            if (this.filterValue == "网管小区名") {
-              return arr.小区名称.indexOf(this.filterinput)>=0
-                && (Date.parse(arr.日期).valueOf()>startDate.valueOf() && Date.parse(arr.日期).valueOf()<endDate.valueOf())
-            }
-            if (this.filterValue == "基站名称") {
-              return (arr.基站名称.indexOf(this.filterinput)>=0)
-                && (Date.parse(arr.日期).valueOf()>startDate.valueOf() && Date.parse(arr.日期).valueOf()<endDate.valueOf())
-            }
-          });
+          this.filterList=[...this.list];
+//          this.filterList = this.list.filter(arr => {
+//            if (this.filterValue == "网管小区名") {
+//              return arr.小区名称.indexOf(this.filterinput)>=0
+//                && (Date.parse(arr.日期).valueOf()>startDate.valueOf() && Date.parse(arr.日期).valueOf()<endDate.valueOf())
+//            }
+//            if (this.filterValue == "基站名称") {
+//              return (arr.基站名称.indexOf(this.filterinput)>=0)
+//                && (Date.parse(arr.日期).valueOf()>startDate.valueOf() && Date.parse(arr.日期).valueOf()<endDate.valueOf())
+//            }
+//          });
 //按日期排序
           this.filterList.sort((a,b)=>{
             return a.日期> b.日期? 1 : -1;
@@ -203,7 +207,7 @@
             xlabel.push(arr.日期);
             yvalue.push(arr.总流量);
             dflow.push(arr.下行吞吐量);
-            dpRb.push(arr.下行PRB利用率)
+            dpRb.push(arr.下行吞吐量/arr.总流量)
           }
           ;
           // 基于准备好的dom，初始化echarts实例

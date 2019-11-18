@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function fetchList(query) {
+export function fetchList(keyword) {
   return request({
-    url: '/kpi/kpi_flow',
-    method: 'get',
-    params: query
+    url: 'http://localhost:8080/kpi/'+keyword,
+    method: 'get'
+    //params: query
   })
 }
