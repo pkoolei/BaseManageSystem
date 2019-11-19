@@ -9,7 +9,7 @@
               <!--<router-link :to="{name:'BaiduMap',params:{id:scope.row.id,baseStationName:scope.row.baseStationName,coordinate:scope.row.coordinate,directionAngle:scope.row.directionAngle}}">-->
                 <!--<a>{{scope.row.baseStationName}}</a>-->
               <!--</router-link>-->
-              <router-link :to="{name:'BaiduMap',params:{id:scope.row.id,baseStationName:scope.row.baseStationName,coordinate:scope.row.coordinate,directionAngle:scope.row.directionAngle}}">
+              <router-link :to="{name:'BaiduMap',params:{id:scope.row.id,baseStationName:scope.row.baseStationName,areaName:scope.row.areaName,wireHeight:scope.row.wireHeight,downDipAngle:scope.row.downDipAngle,coordinate:scope.row.coordinate,directionAngle:scope.row.directionAngle}}">
                 <a>{{scope.row.baseStationName}}</a>
               </router-link>
               <!--<a :href="scope.row.baseStationName" target="_blank" class="buttonText">{{scope.row.baseStationName}}</a>-->
@@ -59,7 +59,7 @@ export default {
       this.pageData = filterData;
       // //设置数据总数为过滤后的总数据量
       let total=filterData.length;
-      console.log("----------------",total)
+      console.log("----------------",this.pageData)
 
     },
     handleFilter() {

@@ -1,7 +1,7 @@
 <template>
   <div class="el-container">
     <baidu-map class="el-container" ak="QHfyH958vAdIKPMlfY2RlfgaSBdgRWmc" :center="center" :zoom="zoom" @ready="handler">
-        <bm-marker  v-for="(item,idx) in points" :position="item" :icon="{url: 'station.png',size: {width: 300, height: 157}}">
+        <bm-marker  v-for="(item,idx) in points" :position="item" :icon="{url:require('@/assets/img/tower2.png'),size: {width: 32, height: 32}}">
        </bm-marker>
       <!--<bm-marker  :position="{lng:113.329,lat:23.121}" >-->
       <!--</bm-marker>-->
@@ -12,10 +12,12 @@
       <bm-polygon :path="polygonPath2" stroke-color="purple" fill-color="purple" :stroke-opacity="0.8" :stroke-weight="1" :editing="false" @lineupdate="updatePolygonPath" @click="infoClick2"/>
       <bm-polygon :path="polygonPath3" stroke-color="purple" fill-color="purple" :stroke-opacity="0.8" :stroke-weight="1" :editing="false" @lineupdate="updatePolygonPath" @click="infoClick3"/>
       <!--<bm-point-collection :points="points" shape="BMAP_POINT_SHAPE_RHOMBUS" color="blue" size="BMAP_POINT_SIZE_BIG" @click="clickHandler"></bm-point-collection>-->
-      <bm-info-window class="container" :position="infoWindowCenter" title="站点信息"  :show="infoWindow.show" @close="infoWindowClose" @open="infoWindowOpen">
+      <bm-info-window class="container" :position="infoWindowCenter" :title="infoWindow.contents.baseStationName"  :show="infoWindow.show" @close="infoWindowClose" @open="infoWindowOpen">
         <!--<p v-text="infoWindow.contents"></p>-->
-        <p>基站名：{{infoWindow.contents.baseStationName}}</p>
+        <p>小区名称：{{infoWindow.contents.areaName}}</p>
         <p>方向角：{{infoWindow.contents.areaDirectionAngle}}</p>
+        <p>天线挂高：{{infoWindow.contents.wireHeight}}</p>
+        <p>总下倾角：{{infoWindow.contents.downDipAngle}}</p>
       </bm-info-window>
     </baidu-map>
     <router-view></router-view>
@@ -69,11 +71,17 @@
           polygonPath2: [],
           polygonPath3: [],
           directionAngle:[],
+          areaName:[],
+          wireHeight:[],
+          downDipAngle:[],
           message:"11111",
           infoWindow: {
             show: false,
             contents:{
               baseStationName:"",
+              areaName:"",
+              wireHeight:0,
+              downDipAngle:0,
               areaDirectionAngle:0
             }
           }
@@ -98,14 +106,18 @@
       },
       methods: {
         handler ({BMap, map}){
+          map.enableScrollWheelZoom()
           this.center.lng = this.$route.params.coordinate.lng,
           this.center.lat = this.$route.params.coordinate.lat,
-          // this.center.lng = this.$route.params.lng,
-          // this.center.lat = this.$route.params.lat,
+
           this.directionAngle = this.$route.params.directionAngle,
-            // console.log("方位角数据",this.$route.params.directionAngle)
           this.infoWindow.contents.baseStationName = this.$route.params.baseStationName,
+          this.areaName = this.$route.params.areaName,
+            console.log("小区名称")
+          this.wireHeight = this.$route.params.wireHeight,
+          this.downDipAngle = this.$route.params.downDipAngle,
           // this.infoWindow.contents.areaDirectionAngle = this.$route.params.directionAngle
+
           this.zoom = 15
           let areaNums = this.directionAngle.length;
           let x0 = this.$route.params.coordinate.lng;
@@ -198,18 +210,27 @@
         infoClick1(){
           this.infoWindow.show = !this.infoWindow.show
           this.infoWindow.contents.baseStationName=this.infoWindow.contents.baseStationName
+          this.infoWindow.contents.areaName= this.areaName[0]
+          this.infoWindow.contents.wireHeight= this.wireHeight[0]
+          this.infoWindow.contents.downDipAngle= this.downDipAngle[0]
           this.infoWindow.contents.areaDirectionAngle=this.directionAngle[0]
           this.infoWindowCenter=this.infoCenter[0]
         },
         infoClick2(){
           this.infoWindow.show = !this.infoWindow.show
           this.infoWindow.contents.baseStationName=this.infoWindow.contents.baseStationName
+          this.infoWindow.contents.areaName= this.areaName[1]
+          this.infoWindow.contents.wireHeight= this.wireHeight[1]
+          this.infoWindow.contents.downDipAngle= this.downDipAngle[1]
           this.infoWindow.contents.areaDirectionAngle=this.directionAngle[1]
           this.infoWindowCenter=this.infoCenter[1]
         },
         infoClick3(){
           this.infoWindow.show = !this.infoWindow.show
           this.infoWindow.contents.baseStationName=this.infoWindow.contents.baseStationName
+          this.infoWindow.contents.areaName= this.areaName[2]
+          this.infoWindow.contents.wireHeight= this.wireHeight[2]
+          this.infoWindow.contents.downDipAngle= this.downDipAngle[2]
           this.infoWindow.contents.areaDirectionAngle=this.directionAngle[2]
           this.infoWindowCenter=this.infoCenter[2]
         },
