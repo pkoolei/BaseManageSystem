@@ -3,9 +3,12 @@
     <div class="filter-container">
       <el-input v-model="listQuery.baseStationName" placeholder="请输入基站名称" class="filter-item" @keyup.enter.native="handleFilter" />
     </div>
-    <el-table :data="pageData" >
+    <el-table :data="pageData">
           <el-table-column >
             <template slot-scope="scope">
+              <!--<router-link :to="{name:'BaiduMap',params:{id:scope.row.id,baseStationName:scope.row.baseStationName,coordinate:scope.row.coordinate,directionAngle:scope.row.directionAngle}}">-->
+                <!--<a>{{scope.row.baseStationName}}</a>-->
+              <!--</router-link>-->
               <router-link :to="{name:'BaiduMap',params:{id:scope.row.id,baseStationName:scope.row.baseStationName,coordinate:scope.row.coordinate,directionAngle:scope.row.directionAngle}}">
                 <a>{{scope.row.baseStationName}}</a>
               </router-link>
@@ -13,7 +16,6 @@
             </template>
           </el-table-column>
     </el-table>
-
   </div>
 </template>
 
@@ -25,7 +27,7 @@ export default {
       msg:'sss',
       listQuery: {
         id:0,
-        baseStationName: ''
+        baseStationName: '',
       },
       baseStationInfo: [],
       pageData:[]
@@ -36,6 +38,7 @@ export default {
     fetchList(this.listQuery).then(res => {
       console.log(res.data)
       this.baseStationInfo = res.data.baseStationList
+      // this.baseStationInfo = res.data.items
       this.getList();
     })
   },
@@ -52,6 +55,7 @@ export default {
       })
 
       console.log("过滤数据",filterData)
+
       this.pageData = filterData;
       // //设置数据总数为过滤后的总数据量
       let total=filterData.length;

@@ -1,8 +1,12 @@
 <template>
   <div class="el-container">
     <baidu-map class="el-container" ak="QHfyH958vAdIKPMlfY2RlfgaSBdgRWmc" :center="center" :zoom="zoom" @ready="handler">
-        <!--<bm-marker :position="points" >-->
-        <!--</bm-marker>-->
+        <bm-marker  v-for="(item,idx) in points" :position="item" :icon="{url: 'station.png',size: {width: 300, height: 157}}">
+       </bm-marker>
+      <!--<bm-marker  :position="{lng:113.329,lat:23.121}" >-->
+      <!--</bm-marker>-->
+      <!--<bm-marker v-for="(item,idx) in this.points" :key="idx" :position="point" >-->
+      <!--</bm-marker>-->
       <!--<bm-point-collection :points="points" shape="BMAP_POINT_SHAPE_RHOMBUS" color="blue" size="BMAP_POINT_SIZE_BIG" ></bm-point-collection>-->
       <bm-polygon :path="polygonPath1" stroke-color="purple" fill-color="purple" :stroke-opacity="1" :stroke-weight="0.8" :editing="false" @lineupdate="updatePolygonPath" @click="infoClick1"/>
       <bm-polygon :path="polygonPath2" stroke-color="purple" fill-color="purple" :stroke-opacity="0.8" :stroke-weight="1" :editing="false" @lineupdate="updatePolygonPath" @click="infoClick2"/>
@@ -47,6 +51,10 @@
           },
           baseStationInfo: [],
           points: [],
+          point:{
+            lng:0,
+            lat:0
+          },
           center:{
             lng:113.329,
             lat:23.11
@@ -75,24 +83,27 @@
         // 初始获取所有基站数据列表
         fetchList(this.listQuery).then(res => {
           this.baseStationInfo = res.data.baseStationList
-          for(let i=0; i <this.baseStationInfo.length;i++){
-            let point = this.baseStationInfo[i].coordinate
-            this.points.push(point)
-            console.log("*****************",point)
-            // this.polygonPath1.push(point)
-            // this.polygonPath2.push(point)
-            // this.polygonPath3.push(point)
-          }
-        })
-
-
-         // this.zoom = 15
+          let point = this.point
+          point = this.baseStationInfo.coordinate
+            for(let i=0; i <this.baseStationInfo.length;i++){
+              point = this.baseStationInfo[i].coordinate
+               this.points.push(point)
+              // this.polygonPath1.push(point)
+              // this.polygonPath2.push(point)
+              // this.polygonPath3.push(point)
+            }
+            console.log("接收坐标",this.points)
+          })
+          this.zoom = 15
       },
       methods: {
-        handler ({BMap, map}) {
+        handler ({BMap, map}){
           this.center.lng = this.$route.params.coordinate.lng,
           this.center.lat = this.$route.params.coordinate.lat,
+          // this.center.lng = this.$route.params.lng,
+          // this.center.lat = this.$route.params.lat,
           this.directionAngle = this.$route.params.directionAngle,
+            // console.log("方位角数据",this.$route.params.directionAngle)
           this.infoWindow.contents.baseStationName = this.$route.params.baseStationName,
           // this.infoWindow.contents.areaDirectionAngle = this.$route.params.directionAngle
           this.zoom = 15
