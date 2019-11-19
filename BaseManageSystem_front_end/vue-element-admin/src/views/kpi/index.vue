@@ -177,6 +177,7 @@
     },
     methods: {
       search() {
+        this.activeNames = ["1","2"];
         let startDate = new Date(Date.parse(this.filterDate[0]));
         let endDate = new Date(Date.parse(this.filterDate[1]));
         fetchList(this.filterinput).then(response => {
@@ -207,7 +208,7 @@
             xlabel.push(arr.日期);
             yvalue.push(arr.总流量);
             dflow.push(arr.下行吞吐量);
-            dpRb.push(arr.下行吞吐量/arr.总流量)
+            dpRb.push(arr.下行吞吐量*100/arr.总流量)
           }
           ;
           // 基于准备好的dom，初始化echarts实例
@@ -267,7 +268,7 @@
               },
               {
                 type: 'value',
-                name: 'pRB利用率',
+                name: '下行流量占比',
                 axisLabel: {
                   formatter: '{value}% '
                 }

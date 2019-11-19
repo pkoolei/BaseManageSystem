@@ -1,7 +1,7 @@
 <template>
 
   <el-container>
-    <el-aside width="50%" :id="id" :class="className" :style="{height:height,width:width}" class="el-container">Aside</el-aside>
+    <el-aside width="50%" :id="id" :class="className" :style="{height:height,width:width}" class="el-container"></el-aside>
     <div>
         <el-card class="table-card">
           <el-tooltip content="点击显示详情" placement="top" effect="light">
@@ -21,7 +21,6 @@
           </el-table>
           </el-tooltip>
         </el-card></br>
-
         <el-card class="table-card">
           <el-tooltip content="点击显示详情" placement="top" effect="light">
             <el-table
@@ -476,7 +475,8 @@
           '大庆':[125.03,46.58]
         },
           option:{},
-          lowFlowWarmData:[{
+          lowFlowWarmData:[
+            {
             id:"01",
             cellName:"广州-H-横沙城西-393714-1-2-OF"
           },
@@ -519,7 +519,8 @@
               zoom: 5,
               roam: true,
               mapStyle: {
-                styleJson: [{
+                styleJson: [
+                  {
                   'featureType': 'water',
                   'elementType': 'all',
                   'stylers': {
@@ -620,7 +621,7 @@
             },
             series : [
               {
-                name: 'pm2.5',
+                name: '4G流量',
                 type: 'scatter',
                 coordinateSystem: 'bmap',
                 data: this.convertData(this.data),
