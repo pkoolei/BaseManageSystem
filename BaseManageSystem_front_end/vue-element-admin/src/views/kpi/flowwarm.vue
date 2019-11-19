@@ -1,12 +1,62 @@
 <template>
 
   <el-container>
-    <el-aside width="50%" :id="id" :class="className" :style="{height:height,width:width}" class="el-container">Aside</el-aside>
+    <el-aside width="50%" :id="id" :class="className" :style="{height:height,width:width}" class="el-container"></el-aside>
     <div>
-        <el-card class="table-card">高业务预警</el-card></br>
-
-        <el-card class="table-card">异常流量预警</el-card></br>
-        <el-card class="table-card">零业务小区</el-card></br>
+        <el-card class="table-card">
+          <el-tooltip content="点击显示详情" placement="top" effect="light">
+          <el-table
+            :data="lowFlowWarmData"
+            style="width: 100%"
+            size="mini">
+            <el-table-column
+              prop="id"
+              label="序号"
+              width="60px">
+            </el-table-column>
+            <el-table-column
+              prop="cellName"
+              label="低流量小区">
+            </el-table-column>
+          </el-table>
+          </el-tooltip>
+        </el-card></br>
+        <el-card class="table-card">
+          <el-tooltip content="点击显示详情" placement="top" effect="light">
+            <el-table
+              :data="lowFlowWarmData"
+              style="width: 100%"
+              size="mini">
+              <el-table-column
+                prop="id"
+                label="序号"
+                width="60px">
+              </el-table-column>
+              <el-table-column
+                prop="cellName"
+                label="异常流量小区">
+              </el-table-column>
+            </el-table>
+          </el-tooltip>
+        </el-card></br>
+        <el-card class="table-card">
+          <el-tooltip content="点击显示详情" placement="top" effect="light">
+            <el-table
+              :data="lowFlowWarmData"
+              style="width: 100%"
+              size="mini">
+              <el-table-column
+                prop="id"
+                label="序号"
+                width="60px">
+              </el-table-column>
+              <el-table-column
+                prop="cellName"
+                label="零业务小区">
+              </el-table-column>
+            </el-table>
+          </el-tooltip>
+        </el-card></br>
     </div>
   </el-container>
 </template>
@@ -424,7 +474,21 @@
           '武汉':[114.31,30.52],
           '大庆':[125.03,46.58]
         },
-          option:{}
+          option:{},
+          lowFlowWarmData:[
+            {
+            id:"01",
+            cellName:"广州-H-横沙城西-393714-1-2-OF"
+          },
+            {
+              id:"02",
+              cellName:"广州-H-华农华山宿舍区-394208-2-2-OF"
+            },
+            {
+              id:"03",
+              cellName:"广州-H-华师北-393361-3-2-OF"
+            }
+          ]
         }
       },
       mounted() {
@@ -438,7 +502,7 @@
         this.chart = null
       },
       methods: {
-        initChart() {
+        initChart() {//TODO：需要替换数据
           this.chart = echarts.init(document.getElementById(this.id));
           this.option = {
             title: {
@@ -455,7 +519,8 @@
               zoom: 5,
               roam: true,
               mapStyle: {
-                styleJson: [{
+                styleJson: [
+                  {
                   'featureType': 'water',
                   'elementType': 'all',
                   'stylers': {
@@ -556,7 +621,7 @@
             },
             series : [
               {
-                name: 'pm2.5',
+                name: '4G流量',
                 type: 'scatter',
                 coordinateSystem: 'bmap',
                 data: this.convertData(this.data),
@@ -644,7 +709,7 @@
   }
 .table-card{
   width: 300px;
-  height: 180px;
+  /*height: 180px;*/
 }
 
 </style>

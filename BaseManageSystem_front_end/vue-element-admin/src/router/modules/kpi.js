@@ -4,11 +4,11 @@ const chartsRouter = {
   path: '/',
   component: Layout,
   redirect: '/kpi',
-  // name: 'KPI',
-  // meta: {
-  //   title: 'KPI',
-  //   icon: 'chart'
-  // },
+  name: 'KPI',
+  alwaysShow: true,
+  meta: {title: 'KPI',
+  icon: 'chart'
+  },
   children: [
     {
       path: 'kpi',
