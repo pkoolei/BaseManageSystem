@@ -74,7 +74,6 @@
         </el-col>
       </el-row>
 
-
       <el-form-item label="投诉内容">
         <el-input type="textarea" v-model="form.complaint" style="width:700px"/>
       </el-form-item>
@@ -83,17 +82,8 @@
         <el-input type="textarea" v-model="form.remarks" style="width:700px"/>
       </el-form-item>
 
-
-      <el-form-item label="问题原因">
-        <el-input type="textarea" v-model="form.reason" style="width:700px"/>
-      </el-form-item>
-
-      <el-form-item label="解决方案">
-        <el-input type="textarea" v-model="form.solution" style="width:700px"/>
-      </el-form-item>
-
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+        <el-button type="primary" @click="onSubmit()">立即创建</el-button>
         <el-button>取消</el-button>
       </el-form-item>
 
@@ -104,6 +94,7 @@
 
 
 <script>
+  import axios from 'axios';
 export default {
   data() {
     return {
@@ -111,26 +102,42 @@ export default {
         sendtime: '',
         phonenumber: '',
         deadline: '',
-        nettype:'',
+        nettype: '',
         WOnumber: '',
         status: '',
         WOtheme: [],
-        complaint:'',
-        remarks:'',
-        responsible:'',
-        responnumber:'',
+        tslongitude: '',
+        tslatitude: '',
+        complaint: '',
+        remarks: '',
+        UrgencyLevel: '',
+        responsible: '',
+        responnumber: '',
         reason: '',
-        solution: ''
+        solution: '',
+        reply: ''
       }
     }
   },
   methods: {
     onSubmit() {
-      console.log('submit!')
+      /* json格式提交： */
+//      let formData = JSON.stringify(this.form);
+//      axios({
+//        method: "post",
+//        url: "xxxxxxx",
+//        headers: {
+//          "Content-Type": "multipart/form-data"
+//        },
+//        withCredentials: true,
+//        data: formData
+//      }).then((res) => {
+//        console.log(res);
+//      });
+      alert("提交成功！")
     }
   },
-  mounted(){
-
+  mounted() {
   }
 }
 </script>

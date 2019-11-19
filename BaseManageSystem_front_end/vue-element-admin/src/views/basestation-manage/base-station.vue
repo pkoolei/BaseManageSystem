@@ -1,5 +1,5 @@
 <template>   
-    <div >
+    <div>
       <!-- 表头搜索按钮区域-->
       <div class="filter-container">
       <el-input v-model="findQuery.PhyName" placeholder="--请输入物理站名--" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
@@ -36,6 +36,7 @@
       <pagination v-show="total>0" :total="total" :page.sync="findQuery.page" :limit.sync="findQuery.limit"  />
     </div>
 </template>
+
 <script>
   import { getList,deleteStation} from '@/api/base-station'
   import Pagination from '@/components/Pagination'
