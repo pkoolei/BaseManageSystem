@@ -23,7 +23,6 @@ public class Swagger2Config {
                 .apis(RequestHandlerSelectors.basePackage("com.basemanagesystem.backend.controller"))
                 .paths(PathSelectors.any())
                 .build();
- 
      }
  
     public ApiInfo apiInfo() {
