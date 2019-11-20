@@ -151,6 +151,11 @@
 //            console.log("mounted");
 //            console.log(res);
             this.baseData=res.data.items;
+            for(let item of this.baseData){
+              let str="***"+item.基站地址.substring(3,10)+"*****";
+              item.基站地址=str;
+              console.log(str, item.基站地址);
+            }
           }).catch(err=>{
             console.log(err)
           })
