@@ -5,14 +5,16 @@
       <el-input v-model="findQuery.PhyName" placeholder="--请输入物理站名--" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
       </div>
 
-      <!--表格数据-->
+      <!--表格数据    小区名称-->
       <el-table v-loading="listLoading" :data="pageData" :key="idx">
-        <el-table-column sortable width="100" prop="id" label="编号"></el-table-column>
-        <el-table-column prop="name" label="物理站名"></el-table-column>
-        <el-table-column prop="place" label="站点地址"></el-table-column>
-        <el-table-column prop="rate" label="传输速率"></el-table-column>
-        <el-table-column prop="time" label="创建时间"></el-table-column>
-        <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+        <el-table-column prop="行政区域" label="行政区域"></el-table-column>
+        <el-table-column prop="物理站名" label="物理站名"></el-table-column>
+        <el-table-column prop="小区名称" label="小区名称"></el-table-column>
+        <el-table-column prop="基站地址" label="站点地址"></el-table-column>
+        <el-table-column prop="pCI" label="PCI"></el-table-column>
+        <el-table-column prop="小区CI" label="小区CI"></el-table-column>
+        <el-table-column prop="入网时间" label="入网时间"></el-table-column>
+        <el-table-column label="操作" align="center" width="280px" class-name="small-padding fixed-width">
           <template slot-scope="{row}">
             <el-button  size="mini" type="success" @click="editStation(row)">编辑</el-button>
             <el-button  size="mini" type="danger" @click="delStation(row)">删除</el-button>
@@ -23,13 +25,19 @@
       <!--编辑模态框-->
       <el-dialog :visible.sync="editTable">
           <el-form :model="editForm" label-width="80px">
-              <el-form-item label="编号"><el-input v-model="editForm.id" disabled style="width:220px" placeholder="填写编号"></el-input></el-form-item>
-            <el-form-item label="日期"><el-date-picker v-model="editForm.time" value-format="yyyy-MM-dd" placeholder="选择日期"></el-date-picker></el-form-item>
-            <el-form-item label="物理站名"> <el-input v-model="editForm.name" style="width: 300px" placeholder="请输入物理站名"></el-input></el-form-item>
-            <el-form-item label="流量"><el-input v-model="editForm.rate" style="width: 220px" placeholder="请输入站点流量" ></el-input></el-form-item>
-            <el-form-item label="地址"><el-input v-model="editForm.place" style="width:400px" placeholder="请输入站点地址"></el-input></el-form-item>
-            <el-form-item> <el-button type="primary" @click="savaEdit()">保存修改</el-button> <el-button type="primary" @click="editTable=false">取消修改</el-button></el-form-item>
+              <el-form-item label="行政区域"><el-input v-model="editForm.行政区域" disabled style="width:220px" placeholder="填写编号"></el-input></el-form-item>
+            <el-form-item label="入网时间"><el-date-picker v-model="editForm.入网时间" value-format="yyyy-MM-dd" placeholder="选择日期"></el-date-picker></el-form-item>
+            <el-form-item label="物理站名"> <el-input v-model="editForm.物理站名" style="width: 300px" placeholder="请输入物理站名"></el-input></el-form-item>
+            <el-form-item label="小区名称"><el-input v-model="editForm.小区名称" style="width: 220px" placeholder="请输入站点名称" ></el-input></el-form-item>
+            <el-form-item label="基站地址"><el-input v-model="editForm.基站地址" style="width:400px" placeholder="请输入站点地址"></el-input></el-form-item>
+            <el-form-item> <el-button type="primary" @click="savaEdit()">保存修改</el-button> <el-button type="primary" @click="editTable=false">取消修改</el-button>
+            </el-form-item>
           </el-form>
+      </el-dialog>
+
+      <!--详细信息模态对话框-->
+      <el-dialog>
+        <el-form-item></el-form-item>
       </el-dialog>
 
       <!--分页-->
@@ -38,7 +46,7 @@
 </template>
 
 <script>
-  import { getList,deleteStation} from '@/api/base-station'
+  import { getList1,deleteStation} from '@/api/base-station'
   import Pagination from '@/components/Pagination'
     export default {
         data() {
@@ -54,11 +62,13 @@
       //      pageData:[],//分页数据
             editTable:false,  //控制编辑框是否弹出
              editForm:{    //修改编辑框 修改的数据
-               id:0,
-               name:'',
-               place:'',
-               time:'',
-               rate:0.00,
+               行政区域:'',
+               物理站名:'',
+               小区名称:'',
+               基站地址:'',
+               pCI:0,
+               小区CI:'',
+               入网时间:'',
              },//编辑form中的数据
              editID:-1    //判断该列数据时候是编辑状态  并且记录当时编辑ID数目
           }
@@ -137,11 +147,14 @@
       mounted(){
           this.listLoading=true;
           //调用api中的getList得到所有数据
-            getList(this.findQuery).then(res=>{
-              console.log(res.data.item);
-              this.baseData=res.data.item;
-            })
-        this.listLoading=false;
+          getList1(this.findQuery.PhyName).then(res=>{
+//            console.log("mounted");
+//            console.log(res);
+            this.baseData=res.data.items;
+          }).catch(err=>{
+            console.log(err)
+          })
+          this.listLoading=false;
       },
       computed:{
       pageData(){
@@ -150,7 +163,7 @@
           let filterData=[];
           //对物理站名过滤
           filterData=this.baseData.filter(item=>{
-            if(PhyName && item.name.indexOf(PhyName)==-1) return false;
+            if(PhyName && item.物理站名.indexOf(PhyName)==-1) return false;
             return true;
           })
           console.log("数目");

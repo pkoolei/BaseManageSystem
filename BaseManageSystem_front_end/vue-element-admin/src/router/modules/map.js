@@ -38,7 +38,7 @@ const mapRouter = {
       path:'test',
       component:() => import('@/views/map/Test'),
       // name:'ComplaintsMap',
-      meta: { title: '路由跳转测试', noCache: true },
+      // meta: { title: '路由跳转测试', noCache: true },
     }
   ]
 }
